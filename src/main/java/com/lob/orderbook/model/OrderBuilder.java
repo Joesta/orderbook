@@ -1,6 +1,7 @@
 package com.lob.orderbook.model;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class OrderBuilder {
@@ -28,8 +29,8 @@ public class OrderBuilder {
         return new OrderBuilder(orderId, side, quantity, price).build();
     }
 
-    public static List<Order> buildOrders(final int noOfOrders) {
-        List<Order> orders = new ArrayList<>();
+    public static LinkedList<Order> buildOrders(final int noOfOrders) {
+        LinkedList<Order> orders = new LinkedList<>();
         for (int i = 0; i < noOfOrders; i++) {
             orders.add(buildOrder(i));
         }

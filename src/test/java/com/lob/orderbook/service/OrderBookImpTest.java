@@ -8,13 +8,14 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class OrderBookImpTest extends OrderbookApplicationTests {
 
     private OrderBookImp orderBookImp;
     private Order order;
-    private List<Order> orders;
+    private LinkedList<Order> orders;
 
 
     @Before
@@ -23,6 +24,9 @@ public class OrderBookImpTest extends OrderbookApplicationTests {
         orderBookImp = new OrderBookImp();
         order = OrderBuilder.buildOrder(1);
         orders = OrderBuilder.buildOrders(5);
+        OrderBookRepo.getInstance()
+                .getAllOrders()
+                .addAll(orders);
     }
 
     @After
@@ -30,6 +34,7 @@ public class OrderBookImpTest extends OrderbookApplicationTests {
         orderBookImp = null;
         order = null;
         orders.clear();
+        OrderBookRepo.getInstance().getAllOrders().clear();
     }
 
     @Test
@@ -56,5 +61,15 @@ public class OrderBookImpTest extends OrderbookApplicationTests {
 
     @Test
     public void modifyOrder() {
+        System.out.println("modifying order by quantity ");
+        System.out.println("existing order to modify " + orders.get(2));
+        Order existingOrder = orders.get(2);
+        int newQuantity = 10;
+
+        Order modifiedOrder = orderBookImp.modifyOrder(existingOrder.getId(), newQuantity);
+        System.out.println("modified order " + modifiedOrder.toString());
+
+        List<Order> allOrders = OrderBookRepo.getInstance().getAllOrders();
+        System.out.println("Available orders: " + allOrders.size());
     }
 }

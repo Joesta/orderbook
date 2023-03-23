@@ -31,7 +31,7 @@ public class OrderBookImp implements IOrderBook {
                 .getAllOrders()
                 .stream()
                 .filter(order -> order.getId().equals(orderId))
-                .findFirst()
+                .findAny()
                 .orElse(null);
     }
 }

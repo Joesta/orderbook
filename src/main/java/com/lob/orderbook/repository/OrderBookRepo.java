@@ -2,13 +2,12 @@ package com.lob.orderbook.repository;
 
 import com.lob.orderbook.model.Order;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class OrderBookRepo {
 
     private static OrderBookRepo instance;
-    private List<Order> orders = new ArrayList<>();
+    private LinkedList<Order> orders = new LinkedList<>();
 
     private OrderBookRepo(){}
 
@@ -21,14 +20,33 @@ public class OrderBookRepo {
     }
 
     public synchronized boolean addOrder(Order order) {
-        return orders.add(order);
+        Order existingOrder = checkIfOrderExist(order);
+        boolean isOrderAdded = false;
+        if (existingOrder != null) {
+            // order has been modified
+            orders.addLast(existingOrder);
+            orders.remove(order);
+            isOrderAdded = true;
+        } else {
+            isOrderAdded = orders.add(order);
+        }
+
+        return isOrderAdded;
     }
 
     public boolean deleteOrder(Order order) {
         return orders.remove(order);
     }
 
-    public List<Order> getAllOrders() {
+    public LinkedList<Order> getAllOrders() {
         return this.orders;
+    }
+
+    private Order checkIfOrderExist(Order order) {
+       return getAllOrders()
+                .stream()
+                .filter(olderOrder -> olderOrder.getId().equals(order.getId()))
+                .findFirst()
+                .orElse(null);
     }
 }
