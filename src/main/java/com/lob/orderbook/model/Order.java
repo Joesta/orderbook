@@ -1,5 +1,7 @@
 package com.lob.orderbook.model;
 
+import java.util.UUID;
+
 public class Order {
     private String id;
     private String side;
@@ -8,8 +10,8 @@ public class Order {
 
     public Order() {}
 
-    public Order(String id, String side, int quantity, double price) {
-        this.id = id;
+    public Order(String side, int quantity, double price) {
+        this.id = UUID.randomUUID().toString();
         this.side = side;
         this.quantity = quantity;
         this.price = price;

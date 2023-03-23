@@ -1,8 +1,6 @@
 package com.lob.orderbook.model;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.List;
 
 public class OrderBuilder {
     private String id;
